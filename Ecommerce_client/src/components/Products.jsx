@@ -9,6 +9,7 @@ const Container=styled.div`
     flex-wrap: wrap;
     justify-content: space-between;
 `
+const base_URL="https://ecommerce-website-backend-5fvc.onrender.com"
 const Products = (props) => {
   const [products,setProducts]=React.useState([]);
   const [filteredProducts,setFilteredProducts]=React.useState([]);
@@ -17,7 +18,7 @@ const Products = (props) => {
   React.useEffect(()=>{
     const getProducts = async () =>{
       try {
-        const res = await axios.get(props.cat?`http://localhost:5000/api/product?category=${props.cat}`:"http://localhost:5000/api/product");
+        const res = await axios.get(props.cat?`${base_URL}/product?category=${props.cat}`:`${base_URL}/product`);
         setProducts(res.data);
       } catch (error) {
         
