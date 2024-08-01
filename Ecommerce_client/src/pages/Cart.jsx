@@ -13,9 +13,11 @@ import { Elements } from '@stripe/react-stripe-js';
 import StripeCheckout from 'react-stripe-checkout';
 import {userRequest} from '../requestMethod'
 import { useNavigate } from 'react-router-dom';
-import {updateCart,removeProduct} from '../redux/cartRedux.js'
+import {updateCart,removeProduct,removeCart} from '../redux/cartRedux.js'
+import axios from "axios";
+
+
 const promise = loadStripe(process.env.REACT_APP_STRIPE);
-//Change image and text!!!!!!!
 const Container=styled.div`
 `
 const Title=styled.h1`
@@ -53,7 +55,6 @@ const Bottom=styled.div`
 const BottomInfo=styled.div`
   flex:3;
 `
-
 const Product = styled.div`
   display: flex;
   justify-content: space-between;
@@ -147,12 +148,13 @@ const Button= styled.button`
 const Error = styled.span`
   color: red;
 `;
-
-//Stripe.setPublishableKey(process.env.REACT_APP_STRIPE);
+const base_URL="https://ecommerce-website-backend-5fvc.onrender.com/api"
 const Cart = () => {
   const cart= useSelector((state)=>state.cart);
   const isLoggedIn=useSelector(state=>state.user.currentUser);
-  //console.log(isLoggedIn.accessToken);
+  const user=isLoggedIn?isLoggedIn.user:null;
+  const userToken=isLoggedIn?isLoggedIn.accessToken:null;
+  //console.log(isLoggedIn);
   const [stripeToken, setStripeToken] = React.useState(null);
   const [finalAmount, setFinalAmount] = React.useState(null);
   const navigate = useNavigate();
@@ -161,6 +163,26 @@ const Cart = () => {
   const onToken = (token) => {
     setStripeToken(token);
   };
+
+  const getAddress = ()=>{
+    const shippingAddress = [];
+
+      if (stripeToken.card.address_line1) {
+      shippingAddress.push(stripeToken.card.address_line1);
+    }
+    if (stripeToken.card.address_line2) {
+      shippingAddress.push(stripeToken.card.address_line2);
+    }
+    if (stripeToken.card.address_state) {
+      shippingAddress.push(stripeToken.card.address_state);
+    }
+    if (stripeToken.card.address_zip) {
+      shippingAddress.push(stripeToken.card.address_zip);
+    }
+    return shippingAddress.join(', ');
+
+  }
+
   //console.log(stripeToken);
   useEffect(() => {
     const makeRequest = async () => {
@@ -170,7 +192,21 @@ const Cart = () => {
           amount: finalAmount*100,
         });
         
-        navigate('/success', { state: { stripeData: res.data, products: cart } });
+        const orderData = {
+          userId:user._id,
+          products: cart.products.map((product) => ({
+            productId:product._id,
+            quantity:product.quantity
+          })),
+          amount:finalAmount,
+          address:getAddress(),
+        }
+
+        const orderResponse = await axios.post(`${base_URL}/order`,orderData,{headers:{Authorization: `Bearer ${userToken}`}});
+        console.log("Order created successfully!", orderResponse.data);
+        alert("Your order has been successfully placed!")
+        dispatch(removeCart());
+        navigate('/', { state: { stripeData: res.data, products: cart } });
       } catch(error){
         console.log(error);
       }
@@ -179,8 +215,8 @@ const Cart = () => {
   }, [stripeToken, cart.total, navigate]);
 
   useEffect(() => {
-    setFinalAmount(cart.total-45+20);
-  },cart.total)
+    setFinalAmount(cart.total>400?cart.total:cart.total+20);
+  },[cart.total])
 
   const handleQuantity=(type,product)=>{
     const updatedCart = {
@@ -269,11 +305,11 @@ const Cart = () => {
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Discount</SummaryItemText>
-              <SummaryItemPrice>-₹45</SummaryItemPrice>
+              <SummaryItemPrice>{cart.total>400?"-₹20":"₹0"}</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem type="total">
               <SummaryItemText >Total</SummaryItemText>
-              <SummaryItemPrice>₹{cart.total-45+20}</SummaryItemPrice>
+              <SummaryItemPrice>₹{finalAmount}</SummaryItemPrice>
             </SummaryItem>
 
             <Elements stripe={promise}>
@@ -284,9 +320,9 @@ const Cart = () => {
                   name="Shop"
                   billingAddress
                   shippingAddress
-                  description={`Your total is ${cart.total}`}
+                  description={`Your total is ${finalAmount}`}
                   currency='INR'
-                  amount={cart.total * 100}
+                  amount={finalAmount * 100}
                   token={onToken}
                   stripeKey={process.env.REACT_APP_STRIPE}
                   >
