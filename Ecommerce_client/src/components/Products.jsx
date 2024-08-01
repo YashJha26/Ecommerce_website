@@ -9,7 +9,7 @@ const Container=styled.div`
     flex-wrap: wrap;
     justify-content: space-between;
 `
-const base_URL="https://ecommerce-website-backend-5fvc.onrender.com"
+const base_URL="https://ecommerce-website-backend-5fvc.onrender.com/api"
 const Products = (props) => {
   const [products,setProducts]=React.useState([]);
   const [filteredProducts,setFilteredProducts]=React.useState([]);
