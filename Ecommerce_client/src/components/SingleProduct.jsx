@@ -3,7 +3,7 @@ import styled from "styled-components";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {addProduct} from '../redux/cartRedux.js'
 import {publicRequest} from "../requestMethod.js";
 import { useDispatch } from 'react-redux';
@@ -69,6 +69,10 @@ const Icon= styled.div`
 const SingleProduct = (props) => {
 
   const dispatch=useDispatch();
+  const navigate=useNavigate();
+  const handleClick = async ()=>{
+    navigate(`/product/${props.id}`);
+  }
   const handleShopClick = async ()=>{
     try {
       const res= await publicRequest.get("product/find/"+props.id);
@@ -78,7 +82,7 @@ const SingleProduct = (props) => {
     }
   }
   return (
-    <Container>
+    <Container onClick={handleClick}>
       <Circle />
       <Image src={props.img} />
       <Info>
