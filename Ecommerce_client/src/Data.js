@@ -1,7 +1,7 @@
 export const sliderItems = [
     {
       id: 1,
-      img: "https://i.ibb.co/XsdmR2c/1.png",
+      img: "https://images.pexels.com/photos/2983464/pexels-photo-2983464.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
       title: "SUMMER SALE",
       desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
       bg: "f5fafd",
@@ -26,19 +26,19 @@ export const sliderItems = [
     {
       id: 1,
       img: "https://images.pexels.com/photos/5886041/pexels-photo-5886041.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-      title: "SHIRT STYLE!",
+      title: "FEMALE PRODUCTS!",
       cat:"female"
     },
     {
       id: 2,
-      img: "https://images.pexels.com/photos/2983464/pexels-photo-2983464.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-      title: "LOUNGEWEAR LOVE",
+      img: "https://imgs.search.brave.com/QVqb9PGlqRY83L4pINMdc8GoNBO7rqztBz-PjvhGHK8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzL2IzLzYx/LzIyL2IzNjEyMjk0/NzY5YTFiMzE1ZTQ5/MjExMGE5N2RiMjdl/LmpwZw",
+      title: "MALE PRODUCTS",
       cat:"male"
     },
     {
       id: 3,
       img: "https://images.pexels.com/photos/5480696/pexels-photo-5480696.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-      title: "LIGHT JACKETS",
+      title: "JEANS",
       cat:"jeans"
     },
   ];
