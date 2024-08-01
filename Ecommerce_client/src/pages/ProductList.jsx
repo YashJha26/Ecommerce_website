@@ -52,7 +52,7 @@ const ProductList = () => {
     <Container>
       <Navbar />
       <Announcement />
-      <Title>props.cat</Title> 
+      <Title>{cat}</Title> 
       <FilterContainer>
         <Filter><FilterText>Filter Products:</FilterText>
           <Select name="color" onChange={handleChangeFilters}>
