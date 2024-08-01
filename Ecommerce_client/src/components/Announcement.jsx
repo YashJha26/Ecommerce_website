@@ -12,7 +12,7 @@ const Container=styled.div`
 const Announcement = () => {
   return (
     <Container>
-      hulu lala
+      Free dilvery for orders above ₹400
     </Container>
   )
 }
