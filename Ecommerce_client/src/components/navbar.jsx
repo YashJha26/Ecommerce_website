@@ -80,7 +80,7 @@ const Navbar = () => {
                         <SearchIcon style={{color:"grey",fontSize:16}}/>
                     </SearchContainer>
                 </Left>
-                <Centre><Logo>hey</Logo></Centre>
+                <Centre><Logo>TheWardrobe</Logo></Centre>
                 <Right>
                     
                     {user
