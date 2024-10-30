@@ -15,7 +15,15 @@ mongoose.connect(process.env.MONGO_URL).then(()=> console.log("Connection succes
 .catch((err)=>{
     console.log(err);
 })
-app.use(cors());
+const allowedOrigins = [
+    'https://ecommerce-website-frontend-g625.onrender.com',  // Replace with your frontend's actual URL
+    'http://localhost:3000'  // For local development
+];
+
+app.use(cors({
+    origin: allowedOrigins,
+    credentials: true,  // Allow cookies/credentials
+}));
 app.use(express.json());
 app.use("/api/auth",authRouter);
 app.use("/api/user",userRouter);
